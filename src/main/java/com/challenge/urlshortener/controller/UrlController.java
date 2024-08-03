@@ -15,7 +15,14 @@ public class UrlController {
     private final IUrlService urlService;
 
     @PostMapping("/shorten")
-    public ResponseEntity<String> createShortenedUrl(@Valid @RequestBody UrlRequest urlrequest){
+    public ResponseEntity<String> createShortenedUrl(@Valid @RequestBody UrlRequest urlrequest) {
         return ResponseEntity.ok(urlService.createShortenedUrl(urlrequest));
+        // TODO Ver status created
+      //  return ResponseEntity.created(new URI(urlService.createShortenedUrl(urlrequest))).body("URL curta criada com sucesso!");
+    }
+
+    @GetMapping("/{shortUrl}")
+    public ResponseEntity<String> getOriginalUrl(@PathVariable String shortUrl){
+        return ResponseEntity.ok(urlService.getOriginalUrl(shortUrl));
     }
 }

@@ -1,11 +1,12 @@
 package com.challenge.urlshortener.service;
 
 import com.challenge.urlshortener.dto.UrlRequest;
-import com.challenge.urlshortener.exception.ErrorMessageConstants;
-import com.challenge.urlshortener.exception.ObjectAlreadyExistsException;
+import com.challenge.urlshortener.exception.ErrorMessageConstantsException;
+import com.challenge.urlshortener.exception.EntityAlreadyExistsException;
 import com.challenge.urlshortener.domain.model.Url;
 import com.challenge.urlshortener.repository.IUrlRepository;
 import com.challenge.urlshortener.domain.UrlShortConverter;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -30,10 +31,19 @@ public class UrlServiceImpl implements IUrlService {
         return shortenedUrl;
     }
 
+    @Override
+    public String getOriginalUrl(final String shortUrl) {
+        Optional<Url> optionalUrl = urlRepository.findByShortUrl(shortUrl);
+        if (optionalUrl.isPresent()){
+            return optionalUrl.get().getOriginalUrl();
+        }
+        throw new EntityNotFoundException(ErrorMessageConstantsException.MESSAGE_02_NOT_FOUND);
+    }
+
     private void validateOriginalUrlExist(final UrlRequest urlRequest) {
         Optional<Url> optionalUrl = urlRepository.findByOriginalUrl(urlRequest.getOriginalUrl());
         if(optionalUrl.isPresent()){
-            throw new ObjectAlreadyExistsException(String.format(ErrorMessageConstants.MESSAGE_01_ORIGINAL_URL_ALREADY_EXIST, optionalUrl.get().getOriginalUrl(), optionalUrl.get().getShortUrl()));
+            throw new EntityAlreadyExistsException(String.format(ErrorMessageConstantsException.MESSAGE_01_ORIGINAL_URL_ALREADY_EXIST, optionalUrl.get().getOriginalUrl(), optionalUrl.get().getShortUrl()));
         }
     }
 }
