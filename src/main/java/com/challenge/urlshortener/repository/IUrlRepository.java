@@ -12,4 +12,5 @@ public interface IUrlRepository extends JpaRepository<Url,Integer> {
     Optional<Url> findByOriginalUrl(final String originalUrl);
 
     Optional<Url> findByShortUrl(final String shortUrl);
+
 }

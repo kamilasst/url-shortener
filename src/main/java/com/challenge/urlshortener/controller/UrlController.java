@@ -1,9 +1,10 @@
 package com.challenge.urlshortener.controller;
 
-import com.challenge.urlshortener.dto.UrlRequest;
-import com.challenge.urlshortener.service.IUrlService;
+import com.challenge.urlshortener.domain.dto.request.UrlRequest;
+import com.challenge.urlshortener.service.interfaces.IUrlService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,13 +17,12 @@ public class UrlController {
 
     @PostMapping("/shorten")
     public ResponseEntity<String> createShortenedUrl(@Valid @RequestBody UrlRequest urlrequest) {
-        return ResponseEntity.ok(urlService.createShortenedUrl(urlrequest));
-        // TODO Ver status created
-      //  return ResponseEntity.created(new URI(urlService.createShortenedUrl(urlrequest))).body("URL curta criada com sucesso!");
+      return ResponseEntity.status(HttpStatus.CREATED).body(urlService.createShortenedUrl(urlrequest));
     }
 
     @GetMapping("/{shortUrl}")
     public ResponseEntity<String> getOriginalUrl(@PathVariable String shortUrl){
         return ResponseEntity.ok(urlService.getOriginalUrl(shortUrl));
     }
+
 }

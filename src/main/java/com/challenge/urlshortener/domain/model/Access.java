@@ -5,41 +5,37 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
-@Table(name = "URL")
+@Table(name = "ACCESS")
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Url {
+public class Access {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     private Integer id;
-    @Column(name = "ORIGINAL_URL", nullable = false)
-    private String originalUrl;
-    @Column(name = "SHORT_URL", nullable = false)
-    private String shortUrl;
-    @Column(name = "DATE_CREATED", nullable = false)
-    private LocalDateTime dateCreated;
-    @OneToMany(mappedBy = "url")
-    private Set<Access> accesses;
+    @ManyToOne
+    @JoinColumn(name = "URL_ID", nullable = false)
+    private Url url;
+    @Column(name = "DATE_ACCESS", nullable = false)
+    private LocalDateTime dateAccess;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Url url = (Url) o;
-        return Objects.equals(originalUrl, url.originalUrl);
+        Access access = (Access) o;
+        return Objects.equals(url, access.url) && Objects.equals(dateAccess, access.dateAccess);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(originalUrl);
+        return Objects.hash(url, dateAccess);
     }
 }

@@ -1,4 +1,4 @@
-package com.challenge.urlshortener.dto;
+package com.challenge.urlshortener.domain.dto.request;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;

@@ -1,5 +1,6 @@
-package com.challenge.urlshortener.exception;
+package com.challenge.urlshortener.infra;
 
+import com.challenge.urlshortener.exception.EntityAlreadyExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,4 +43,5 @@ public class GlobalExceptionHandler{
     public ResponseEntity<Object> handleGenericsException(Exception e){
         return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
 }
