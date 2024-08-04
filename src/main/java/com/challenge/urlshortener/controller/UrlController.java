@@ -1,5 +1,6 @@
 package com.challenge.urlshortener.controller;
 
+import com.challenge.urlshortener.controller.interfaces.IUrlController;
 import com.challenge.urlshortener.domain.dto.request.UrlRequest;
 import com.challenge.urlshortener.service.interfaces.IUrlService;
 import jakarta.validation.Valid;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/url")
 @RequiredArgsConstructor
-public class UrlController {
+public class UrlController implements IUrlController {
 
     private final IUrlService urlService;
 
